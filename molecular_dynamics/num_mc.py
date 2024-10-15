@@ -39,8 +39,11 @@ def animate(frame_number, bar_container):
 _, _, bar_container = ax.hist([0] * (n1+n2), HIST_BINS,  align='mid',
                               ec="yellow", fc="green", alpha=0.5)
 
-MAX_PROB = 0.6
+MAX_PROB = 0.5
 ax.set_ylim(top=MAX_PROB)  # set safe limit to ensure that all data is visible.
+plt.xlabel("Energy")
+plt.ylabel("Probability")
+plt.title("Energy distribution of system with: " + str(n1) + " particles")
 locs, labels = plt.xticks()  # Get the current locations and labels.
 plt.xticks(np.arange(0.5, 8, step=1), HIST_BINS)
 
@@ -49,7 +52,7 @@ for loc in np.arange(0, MAX_PROB, step=0.02):
     ax.axhline(loc, alpha=0.2, color='#b0b0b0', linestyle='-', linewidth=0.8)
 
 anim = functools.partial(animate, bar_container=bar_container)
-ani = animation.FuncAnimation(fig, anim, 500, repeat=False, blit=True)
+ani = animation.FuncAnimation(fig, anim, 5000, repeat=False, blit=True)
 
 plt.grid()
 plt.show()
