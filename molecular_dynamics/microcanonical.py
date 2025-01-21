@@ -39,6 +39,8 @@ second_moment = 0
 for i, el in enumerate(weighted_energies):
     second_moment += probs[i] * i * i
 
-print("Standard Deviation: ", math.sqrt(
-    abs(float(second_moment) - sum(weighted_energies)**2)))
-print("Variance: ", abs(float(second_moment) - sum(weighted_energies)**2))
+print(
+    "Standard Deviation: ",
+    math.sqrt(abs(float(second_moment) - sum(weighted_energies) ** 2)),
+)
+print("Variance: ", abs(float(second_moment) - sum(weighted_energies) ** 2))
