@@ -1,0 +1,71 @@
+################################################################################
+# PREAMBLE
+################################################################################
+outdata_prefix "./outdata/rlx"                                                  # path prefix for output data files
+
+################################################################################
+# UNIT CELL RELAXATION PROCEDURE
+################################################################################
+optcell 2                                                                       # optimization type; 1: optimize only volume, 2: full optimization of cell geometry (see https://docs.abinit.org/variables/rlx/#optcell)
+ionmov  2                                                                       # algorithm to change displacement of atoms; 0: fixed, 1: molecular dynamics with viscous damping, 2: Broyden-Fletcher-Goldfarb-Shanno minimization (BFGS) (see https://docs.abinit.org/variables/rlx/#ionmov)
+ntime  10                                                                       # maximum number of relaxation steps
+dilatmx 1.05                                                                    # maximum allowed dilatation of unit cell, needed to book additional memory;
+                                                                                # increasing lattice size decreases reciprocal primitive vectors lengths,
+                                                                                # which lead to more plane waves at constant energy cut-off (see https://docs.abinit.org/variables/rlx/#dilatmx)
+ecutsm  0.5                                                                     # [Ha] smearing needed to remove "numerical" discontinuities introduced by change of number of plane waves
+                                                                                # when unit cell size changes (see https://journals.aps.org/prb/abstract/10.1103/PhysRevB.93.205147)
+
+################################################################################
+# UNIT CELL
+################################################################################
+acell 5.4029896647E+00  5.4029896647E+00  5.4029896647E+00
+rprim    -5.7735026919E-01  5.7735026919E-01  5.7735026919E-01
+          5.7735026919E-01 -5.7735026919E-01  5.7735026919E-01
+          5.7735026919E-01  5.7735026919E-01 -5.7735026919E-01
+
+################################################################################
+# ATOM TYPES
+################################################################################
+ntypat 1                                                                        # number of atom types
+znucl 41                                                                        # atomic number of the atom types (space-separated)
+pp_dirpath "../"                                                                # path to directory containing pseudopotentials (must be consistent with 'znucl' order)
+pseudos "Nb.psp8"                                                               # pseudopotential file names (within quotation marks, comma-separated)
+
+################################################################################
+# ATOMS
+################################################################################
+natom 1                                                                         # Al has FCC structure, with one atom per unit cell
+typat 1                                                                         # atom types (must be consistent with 'znucl' and 'pseudos' order)
+xred 0.0 0.0 0.0                                                                # atom fractional coordinates within unit cell
+
+################################################################################
+# PLANE-WAVE BASIS SET
+################################################################################
+ecut 14.0                                                                       # [Ha] cut-off energy; converge study in next "experiment" (see http://www.pseudo-dojo.org/)
+
+################################################################################
+# k-POINT GRID (see https://journals.aps.org/prb/abstract/10.1103/PhysRevB.13.5188)
+################################################################################
+kptopt 1                                                                        # method to set-up k-points; 1: symmetry accounted for, so that only k-points within irreducible BZ generated, with appropriate symmetry-defined weights (degeneracy); prevents redundancy
+ngkpt 6 6 6                                                                     # number of grid points
+nshiftk 2                                                                       # number of shifted grids to be used concurrently with the one defined above
+shiftk 0.25  0.25  0.25
+      -0.25 -0.25 -0.25
+#############################################################
+# OCCUPATION
+################################################################################
+occopt 4                                                                        # controls how occupation of electronic states is handled (see https://docs.abinit.org/variables/basic/#occopt)
+                                                                                # when occopt = 4, the "cold smearing" of Marzari is used
+                                                                                # smearing improves convergence w.r.t. to BZ sampling in metals, where state occupation drops suddenly to zero as Fermi level crossed
+                                                                                # otherwise, a very fine mesh would be needed for accurate integration around the discontinuity
+tsmear 0.04                                                                     # [Ha] "temperature" of smearing
+                                                                                # convergence should be checked also w.r.t. this parameter
+                                                                                # see http://theossrv1.epfl.ch/Main/ElectronicTemperature
+
+################################################################################
+# SCF PROCEDURE
+################################################################################
+nstep 10                                                                        # max. number of SCF cycles
+toldfe 1.0d-6                                                                   # convergence criterion: absolute energy difference between two consecutive steps
+diemac 1e6                                                                      # (optional) pre-conditioning of macroscopic dielectric constant; very large for metals; might significantly speed up computation (see https://docs.abinit.org/variables/gstate/#diemac)
+getwfk -1                                                                       # initial wavefunction guess taken from previous dataset; this speeds up calculation significantly

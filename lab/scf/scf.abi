@@ -1,0 +1,63 @@
+################################################################################
+# PREAMBLE
+################################################################################
+outdata_prefix "./outdata/scf"                                                      # path prefix for output data files
+
+################################################################################
+# UNIT CELL
+################################################################################
+acell 6.23 6.23 6.23                                                            # [Bohr] length scales by which dimensionless primitive translations 'rprim' are multiplied
+rprim 0.0 0.5 0.5                                                               # dimensionless primitive translations in real space
+      0.5 0.0 0.5
+      0.5 0.5 0.0
+
+################################################################################
+# ATOM TYPES
+################################################################################
+ntypat 1                                                                        # number of atom types
+znucl 41                                                                        # atomic number of the atom types (space-separated)
+pp_dirpath "../"                                                                # path to directory containing pseudopotentials (must be consistent with 'znucl' order)
+pseudos "Nb.psp8"                                                               # pseudopotential file names (within quotation marks, comma-separated)
+
+################################################################################
+# ATOMS
+################################################################################
+natom 1                                                                         # Al has FCC structure, with one atom per unit cell
+typat 1                                                                         # atom types (must be consistent with 'znucl' and 'pseudos' order)
+xred 0.0 0.0 0.0                                                                # atom fractional coordinates within unit cell
+
+################################################################################
+# PLANE-WAVE BASIS SET
+################################################################################
+ecut 12.0                                                                       # [Ha] cut-off energy; converge study in next "experiment" (see http://www.pseudo-dojo.org/)
+
+################################################################################
+# k-POINT GRID (see https://journals.aps.org/prb/abstract/10.1103/PhysRevB.13.5188)
+################################################################################
+kptopt 1                                                                        # method to set-up k-points; 1: symmetry accounted for, so that only k-points within irreducible BZ generated, with appropriate symmetry-defined weights (degeneracy); prevents redundancy
+ngkpt 2 2 2                                                                     # number of grid points
+nshiftk 4                                                                       # number of shifted grids to be used concurrently with the one defined above
+shiftk 0.5 0.5 0.5                                                              # k-grid shift vectors; this combination is very efficient for FCC lattice, while other choices might be more suitable for other lattices (see https://docs.abinit.org/variables/basic/#shiftk)
+       0.5 0.0 0.0
+       0.0 0.5 0.0
+       0.0 0.0 0.5
+
+################################################################################
+# OCCUPATION
+################################################################################
+occopt 4                                                                        # controls how occupation of electronic states is handled
+                                                                                # (see https://docs.abinit.org/variables/basic/#occopt)
+                                                                                # 4: metallic occupation with "cold smearing" of Marzari as smearing function
+                                                                                # smearing improves convergence w.r.t. to BZ sampling in metals,
+                                                                                # where state occupation drops suddenly to zero as Fermi level crossed
+                                                                                # otherwise, a very fine mesh would be needed for accurate integration around the discontinuity
+tsmear 0.05                                                                     # [Ha] "temperature" of smearing (sigma)
+                                                                                # convergence should be checked also w.r.t. this parameter
+                                                                                # see http://theossrv1.epfl.ch/Main/ElectronicTemperature
+
+################################################################################
+# SCF PROCEDURE
+################################################################################
+nstep 10                                                                        # max. number of SCF cycles
+toldfe 1.0d-6                                                                   # convergence criterion: absolute energy difference between two consecutive steps
+diemac 1e6                                                                      # (optional) pre-conditioning of macroscopic dielectric constant; very large for metals; might significantly speed up computation (see https://docs.abinit.org/variables/gstate/#diemac)
