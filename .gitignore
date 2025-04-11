@@ -1,5 +1,3 @@
 .DS_Store
-<<<<<<< HEAD
-=======
 **/outdata/
->>>>>>> 09c9756 (cleanup)
+*.abo

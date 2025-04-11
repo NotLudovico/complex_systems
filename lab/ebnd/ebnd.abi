@@ -30,7 +30,7 @@ xred 0.0 0.0 0.0                                                                
 ################################################################################
 # PLANE-WAVE BASIS SET
 ################################################################################
-ecut 14.0                                                                       # [Ha] cut-off energy; converge study in previous "experiment" (see http://www.pseudo-dojo.org/)
+ecut 33.0                                                                       # [Ha] cut-off energy; converge study in previous "experiment" (see http://www.pseudo-dojo.org/)
 
 ################################################################################
 # k-POINT GRID (see https://journals.aps.org/prb/abstract/10.1103/PhysRevB.13.5188) for SCF procedure (dataset 1)
@@ -67,7 +67,7 @@ iscf2 -2                                                                        
 getden2 -1                                                                      # get density from previous step
 kptopt2 -5                                                                      # when negative, the k-points are set up by specify bounds and number of sub-divisions of segments in BZ; the absolute value must be equal to the number of segments used
 nband2 12                                                                       # number of bands (if unsure, look at 'nband' in output file of SCF cycle and add some more)
-ndivsm2 60
+ndivsm2 120
 kptopt -7
 kptbounds   0 0 0
             1/2 -1/2 1/2
