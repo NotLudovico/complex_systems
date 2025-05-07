@@ -1,16 +1,16 @@
 ################################################################################
 # PREAMBLE
 ################################################################################
-outdata_prefix "./outdata/ebnd"                                                 # path prefix for output data files
-ndtset 2                                                                        # number of datasets (one for SCF procedure to get GS electron density, one for band structure calculation)
+outdata_prefix "./outdata/scf"                                                 # path prefix for output data files
+ndtset 12  udtset 3 4
 
 ################################################################################
 # UNIT CELL
 ################################################################################
-acell 5.4029896647E+00  5.4029896647E+00  5.4029896647E+00
-rprim    -5.7735026919E-01  5.7735026919E-01  5.7735026919E-01
-          5.7735026919E-01 -5.7735026919E-01  5.7735026919E-01
-          5.7735026919E-01  5.7735026919E-01 -5.7735026919E-01
+acell 6.234  6.234  6.234  
+rprim -0.5  0.5  0.5                                                            # bcc primitive vectors
+       0.5 -0.5  0.5
+       0.5  0.5 -0.5
 
 ################################################################################
 # ATOM TYPES
@@ -30,13 +30,16 @@ xred 0.0 0.0 0.0                                                                
 ################################################################################
 # PLANE-WAVE BASIS SET
 ################################################################################
-ecut 33.0                                                                       # [Ha] cut-off energy; converge study in previous "experiment" (see http://www.pseudo-dojo.org/)
+ecut 33
 
 ################################################################################
 # k-POINT GRID (see https://journals.aps.org/prb/abstract/10.1103/PhysRevB.13.5188) for SCF procedure (dataset 1)
 ################################################################################
-kptopt1 1                                                                       # method to set-up k-points; 1: symmetry accounted for, so that only k-points within irreducible BZ generated, with appropriate symmetry-defined weights (degeneracy); prevents redundancy
-ngkpt1 6 6 6                                                                    # number of grid points
+kptopt 1                                                                       # method to set-up k-points; 1: symmetry accounted for, so that only k-points within irreducible BZ generated, with appropriate symmetry-defined weights (degeneracy); prevents redundancy
+ngkpt1?  4 4 4
+ngkpt2?  6 6 6
+ngkpt3?  8 8 8
+
 nshiftk 2                                                                       # number of shifted grids to be used concurrently with the one defined above
 shiftk 0.25  0.25  0.25
       -0.25 -0.25 -0.25
@@ -48,14 +51,15 @@ occopt 4                                                                        
                                                                                 # when occopt = 4, the "cold smearing" of Marzari is used
                                                                                 # smearing improves convergence w.r.t. to BZ sampling in metals, where state occupation drops suddenly to zero as Fermi level crossed
                                                                                 # otherwise, a very fine mesh would be needed for accurate integration around the discontinuity
-tsmear 0.04                                                                     # [Ha] "temperature" of smearing
-                                                                                # convergence should be checked also w.r.t. this parameter
-                                                                                # see http://theossrv1.epfl.ch/Main/ElectronicTemperature
+tsmear?1  0.01
+tsmear?2  0.02
+tsmear?3  0.03
+tsmear?4  0.04
+                                                                                
 
 ################################################################################
 # SCF PROCEDURE
 ################################################################################
-nstep1 20                                                                       # max. number of SCF cycles
+nstep 10                                                                       # max. number of SCF cycles
 toldfe 1.0d-6                                                                  # convergence criterion: absolute energy difference between two consecutive steps
-diemac1 1e6                                                                     # (optional) pre-conditioning of macroscopic dielectric constant; very large for metals; might significantly speed up computation (see https://docs.abinit.org/variables/gstate/#diemac)
-prtden1  1                                                                      # save density from SCF procedure (dataset1), so that it can be used in the non-self-consistent calculation of band structure (dataset 2)
+prtden  1                                                                      # save density from SCF procedure (dataset1), so that it can be used in the non-self-consistent calculation of band structure (dataset 2)

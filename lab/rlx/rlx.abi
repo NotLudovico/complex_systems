@@ -41,7 +41,7 @@ xred 0.0 0.0 0.0                                                                
 ################################################################################
 # PLANE-WAVE BASIS SET
 ################################################################################
-ecut 14.0                                                                       # [Ha] cut-off energy; converge study in next "experiment" (see http://www.pseudo-dojo.org/)
+ecut 33.0                                                                       # [Ha] cut-off energy; converge study in next "experiment" (see http://www.pseudo-dojo.org/)
 
 ################################################################################
 # k-POINT GRID (see https://journals.aps.org/prb/abstract/10.1103/PhysRevB.13.5188)
